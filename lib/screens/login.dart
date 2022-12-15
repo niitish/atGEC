@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -37,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please enter some value";
-                }
+                } else {}
               },
             ),
           ]),
