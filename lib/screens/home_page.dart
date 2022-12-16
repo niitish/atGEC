@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'profile_page.dart';
+import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -47,6 +48,7 @@ class _BottomBarState extends State<BottomBar> {
     return BottomNavigationBar(items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
       BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+      BottomNavigationBarItem(icon: Icon(Icons.login_outlined), label: "Login"),
     ], onTap: (value) => _onItemTapped(value));
   }
 
@@ -64,6 +66,11 @@ class _BottomBarState extends State<BottomBar> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ProfilePage()),
+      );
+    } else if (_selectedIndex == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     }
   }

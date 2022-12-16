@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,10 +33,13 @@ class _LoginPageState extends State<LoginPage> {
                 CustomTextField(
                   screenWidth: screenWidth,
                   controller: loginController['userName'],
+                  name: "username",
                 ),
                 CustomTextField(
                   screenWidth: screenWidth,
                   controller: loginController['password'],
+                  hide: true,
+                  name: "password",
                 ),
                 InkWell(
                   child: Container(
@@ -54,6 +58,20 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  onTap: () async {
+                    String url = "http://172.16.9.66:8080/login";
+
+                    print("sending login data");
+                    var response = await http.post(
+                      Uri.parse(url),
+                      body: {
+                        "userName": loginController['userName'].toString(),
+                        "password": loginController['password'].toString(),
+                      },
+                    );
+
+                    print(response);
+                  },
                 )
               ]),
             ),
@@ -62,17 +80,23 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  void sendData() {}
 }
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    Key? key,
-    required this.screenWidth,
-    required this.controller,
-  }) : super(key: key);
+  CustomTextField(
+      {Key? key,
+      required this.screenWidth,
+      required this.controller,
+      this.hide = false,
+      this.name = "default"})
+      : super(key: key);
 
   final double screenWidth;
   final TextEditingController? controller;
+  bool hide;
+  String name;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +111,8 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)),
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        decoration: InputDecoration(label: Text(name)),
+        obscureText: hide,
         controller: controller,
         validator: (value) {
           if (value == null || value.isEmpty) {
