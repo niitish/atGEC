@@ -20,34 +20,43 @@ class _LoginPageState extends State<LoginPage> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(children: [
-              CustomTextField(
-                screenWidth: screenWidth,
-                controller: loginController['userName'],
-              ),
-              CustomTextField(
-                screenWidth: screenWidth,
-                controller: loginController['password'],
-              ),
-              InkWell(
-                child: Container(
-                  margin: EdgeInsets.only(top: 100),
-                  color: Colors.blue,
-                  padding: const EdgeInsets.all(30),
-                  child: const Text(
-                    "login",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+          child: Container(
+            margin: EdgeInsets.only(bottom: screenWidth / 2),
+            child: Form(
+              key: _formKey,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                CustomTextField(
+                  screenWidth: screenWidth,
+                  controller: loginController['userName'],
+                ),
+                CustomTextField(
+                  screenWidth: screenWidth,
+                  controller: loginController['password'],
+                ),
+                InkWell(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blue,
+                    ),
+                    margin: EdgeInsets.only(top: screenWidth / 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: const Text(
+                      "login",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-              )
-            ]),
+                )
+              ]),
+            ),
           ),
         ),
       ),

@@ -82,12 +82,12 @@ class RandomGenerator extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   // border: Border.all(width: 1, color: Colors.black),
                   // color: Colors.black,
                   color: Colors.blue),
-              padding: EdgeInsets.all(15),
-              child: Text(
+              padding: const EdgeInsets.all(15),
+              child: const Text(
                 "Send OTP",
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -101,10 +101,16 @@ class RandomGenerator extends StatelessWidget {
               //     }),
             ),
           ),
-          onTap: () => showDialog(
+          onTap: () => {
+            showDialog(
               context: context,
-              builder: (BuildContext context) => _PopUp(context)),
-        )
+              builder: (BuildContext context) => _PopUp(
+                context,
+                generateNum(),
+              ),
+            ),
+          },
+        ),
       ],
     );
   }
@@ -112,16 +118,25 @@ class RandomGenerator extends StatelessWidget {
   int generateNum() {
     var randomNum = Random();
     int num = randomNum.nextInt(10000);
-    var url = Uri.https('localhost', ':3000/test');
-    var response = http.post(url, body: {"value": num.toString()});
-
     return num;
   }
 
-  Widget _PopUp(BuildContext context) {
+  void sendRandomNum(int num) async {
+    print("Testing for http request");
+    // var url = Uri.https('172.16.9.66', ':8080');
+    String url = "http://172.16.9.66:8080/";
+    var response =
+        await http.post(Uri.parse(url), body: {"value": num.toString()});
+    print("Testing for http request");
+    print(response);
+  }
+
+  Widget _PopUp(BuildContext context, int num) {
+    sendRandomNum(num);
+
     return AlertDialog(
       title: const Text("OTP for current class:"),
-      content: Column(children: [Text(generateNum().toString())]),
+      content: Column(children: [Text(num.toString())]),
       actions: [
         TextButton(
           child: const Text("Close"),
